@@ -1,0 +1,35 @@
+{
+  "chains":[
+    {
+      "id": "MY_CHAIN",
+      "name": "Runnerty tutorial",
+      "triggers":[
+        {
+          "id":"schedule_dafault",
+          "schedule_interval":"0 */1 * * *"
+        }
+      ],
+      "processes":[
+        {
+          "id": "LOAD_FILE_INTO_BBDD",
+          "name": "This process executes the file load into the BBDD using the runnerty-executor-sql",
+          "exec": {
+            "id": "mysql_default",
+            "command": "LOAD DATA LOCAL INFILE './new_users.csv' REPLACE INTO TABLE MYSCHEMA.users CHARACTER SET UTF8 FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\n' IGNORE 1 LINES (name, lastName, email);"
+          },
+          "chain_action_on_fail": {
+              "action": "end"
+            },
+          "output":[
+            {
+              "file_name":"./test.log",
+              "write":["EXECUTION @GETVALUE(PROCESS_ID) - AT @GETDATE('YYYY-MM-DD HH:mm:ss')\n"],
+              "concat":true,
+              "maxsize":"10mb"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

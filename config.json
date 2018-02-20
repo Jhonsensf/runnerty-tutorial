@@ -1,0 +1,21 @@
+{
+  "config": {
+    "triggers": [
+      {
+        "id":"schedule_dafault",
+        "type":"@runnerty-trigger-schedule"
+      }
+    ],
+    "executors": [
+      {
+        "id": "mysql_default",
+        "type": "@runnerty-executor-mysql",
+        "host": "localhost",
+        "user": "root",
+        "password": "root",
+        "database": "MYSCHEMA",
+        "port": "32768"
+      }
+    ]
+  }
+}
